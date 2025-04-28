@@ -1,0 +1,16 @@
+# Maven directories
+target/
+.idea/
+*.iml
+
+# Eclipse IDE
+.settings/
+*.class
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Others
+*.jar

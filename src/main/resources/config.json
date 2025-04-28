@@ -1,0 +1,17 @@
+{
+  "browser": {
+    "name": "chrome",
+    "headless": false
+  },
+  "emailUtils": {
+    "senderEmail": "k214540@nu.edu.pk",
+    "appPassword": "ecsheqdrzkhsjmcg",
+    "recipientEmail": "k214540@nu.edu.pk"
+  },
+  "website": {
+    "url": "https://www.saucedemo.com/"
+  },
+  "wait": {
+    "timeout": 30
+  }
+}
