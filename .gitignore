@@ -1,16 +1,22 @@
-# Maven directories
-target/
+# Ignore Java class files
+*.class
+
+# Ignore Eclipse IDE files
+.classpath
+.project
+.settings/
+
+# Ignore IntelliJ IDEA project files
 .idea/
 *.iml
 
-# Eclipse IDE
-.settings/
-*.class
-*.log
+# Ignore Maven and Gradle directories
+target/
+build/
 
-# OS-specific files
+# Ignore OS-generated files
 .DS_Store
 Thumbs.db
 
-# Others
-*.jar
+# Ignore the .gitignore file itself (if you don't want it tracked)
+.gitignore

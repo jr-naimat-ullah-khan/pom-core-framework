@@ -1,6 +1,7 @@
 package utils;
 
 import Base.BasePage;
+import Base.DriverManager;
 import com.aventstack.extentreports.ExtentTest;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
@@ -26,7 +27,7 @@ public class TestListener implements ITestListener {
 
         // Capture screenshot after the test
         Object currentClass = result.getInstance();
-        WebDriver driver = ((BasePage) currentClass).getDriver();
+        WebDriver driver = DriverManager.getDriver();
         String screenshotPath = ScreenshotUtils.captureScreenshot(driver);
 
         try {
@@ -47,7 +48,7 @@ public class TestListener implements ITestListener {
 
         // Capture Screenshot on Failure
         Object currentClass = result.getInstance();
-        WebDriver driver = ((BasePage) currentClass).getDriver();
+        WebDriver driver = ((BasePage) currentClass).DriverManager.getDriver();
         String screenshotPath = ScreenshotUtils.captureScreenshot(driver);
         try {
             // Add the screenshot as a clickable element inside the test details

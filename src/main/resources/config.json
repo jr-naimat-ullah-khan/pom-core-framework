@@ -1,6 +1,6 @@
 {
   "browser": {
-    "name": "chrome",
+    "name": "edge",
     "headless": false
   },
   "emailUtils": {

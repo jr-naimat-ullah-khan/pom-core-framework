@@ -1,6 +1,7 @@
 	package Page;
 
 	import Base.BasePage;
+	import Base.DriverManager;
 	import com.aventstack.extentreports.ExtentTest;
 	import org.openqa.selenium.WebDriver;
 	import org.openqa.selenium.WebElement;
@@ -9,12 +10,15 @@
 	import utils.ExtentReportManager;
 	import utils.ScreenshotUtils;
 
-	public class LoginPage {
+	public class LoginPage extends DriverManager {
 
-		private final WebDriver driver;
-		private static ExtentTest test;
+        private static ExtentTest test;
 
-
+		BasePage basePage = new BasePage();
+		public LoginPage()
+		{
+			PageFactory.initElements(getDriver(), this);
+		}
 		@FindBy(id = "user-name")
 		private WebElement emailField;
 
@@ -24,15 +28,12 @@
 		@FindBy(id = "login-button")
 		private WebElement loginButton;
 
-		public LoginPage(WebDriver driver) {
-			this.driver = driver;
-			PageFactory.initElements(driver, this);
-		}
+
 
 		public LoginPage Login(String email, String password) {
-			BasePage.enterText(emailField, email, "Email");
-			BasePage.enterText(passwordField, password, "Password");
-			BasePage.clickElement(loginButton, "Login Button");
+			basePage.Write(emailField, email, "Email");
+			basePage.Write(passwordField, password, "Password");
+			basePage.Click(loginButton, "Login Button");
 			return this;
 		}
 

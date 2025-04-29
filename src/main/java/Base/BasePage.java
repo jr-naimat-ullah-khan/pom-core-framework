@@ -1,116 +1,81 @@
 package Base;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.*;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
-import com.aventstack.extentreports.MediaEntityBuilder;
-
-import utils.Config;
-import utils.EmailUtils;
 import utils.ExtentReportManager;
+import java.time.Duration;
 import utils.ScreenshotUtils;
-
-import java.util.Objects;
 
 public class BasePage {
 
 	protected static ExtentReports extent;
+	public DriverManager DriverManager;
 	protected ExtentTest test;
-	private final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
-
-	// Returns the WebDriver for current thread/test
-	public WebDriver getDriver() {
-		return driver.get();
-	}
 
 	// Runs once before all tests — used to start ExtentReport
 	@BeforeSuite
-	public void SetupReport() {
+	public void setupReport() {
 		extent = ExtentReportManager.getReportInstance();
 	}
 
-	// Generic function to enter text into any input field
-	public static void enterText(WebElement element, String text, String fieldName) {
-		element.sendKeys(text);
-		try {
-			ExtentReportManager.getTest().info("Entered " + fieldName + ": " + text);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	// Runs before each test method — used to initialize WebDriver
+	@BeforeMethod
+	public void setup() {
+		DriverManager.setup(); // Initialize WebDriver from DriverManager
 	}
 
 	// Generic function to click any element
-	public static void clickElement(WebElement element, String elementName) {
+	public void Click(WebElement element, String elementName) {
 		element.click();
 		try {
-			ExtentReportManager.getTest().info("Clicked on " + elementName);
+			String screenshotPath = ScreenshotUtils.captureScreenshot(DriverManager.getDriver());
+			ExtentReportManager.getTest().info("Clicked on " + elementName)
+					.addScreenCaptureFromPath(screenshotPath);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	// Runs before each test method — used to launch browser and open the site
-	@BeforeMethod
-	public void setup() {
-		String browser = Config.getConfigValue("browser.name",String.class);
-		boolean headless = Boolean.TRUE.equals(Config.getConfigValue("browser.headless", Boolean.class));
 
-		if (browser == null)
-		{
-			throw new IllegalStateException("Browser name not found in config file.");
+	// Generic function to enter text into any input field
+	public void Write(WebElement element, String text, String fieldName) {
+		element.sendKeys(text);
+		try {
+			String screenshotPath = ScreenshotUtils.captureScreenshot(DriverManager.getDriver());
+			ExtentReportManager.getTest().info("Entered " + fieldName + ": " + text)
+					.addScreenCaptureFromPath(screenshotPath);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+	}
 
-		switch (Objects.requireNonNull(browser).toLowerCase()) {
-			case "chrome":
-				ChromeOptions chromeOptions = new ChromeOptions();
-				if (headless) chromeOptions.addArguments("--headless");
-				driver.set(new ChromeDriver(chromeOptions));
-				break;
-			case "firefox":
-				FirefoxOptions firefoxOptions = new FirefoxOptions();
-				if (headless) firefoxOptions.addArguments("-headless");
-				driver.set(new FirefoxDriver(firefoxOptions));
-				break;
-			case "edge":
-				EdgeOptions edgeOptions = new EdgeOptions();
-				if (headless) edgeOptions.addArguments("--headless");
-				driver.set(new EdgeDriver(edgeOptions));
-				break;
-			default:
-				throw new IllegalStateException("Unsupported browser: " + browser);
-		}
+	public void scrollToElement(WebElement element) {
+		JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+		js.executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", element);
+	}
 
-		// Open the test website
-		getDriver().get(Objects.requireNonNull(Config.getConfigValue("website.url", String.class)));
+	public void waitForElementToBeClickable(WebElement element, int timeoutInSeconds) {
+		WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(timeoutInSeconds));
+		wait.until(ExpectedConditions.elementToBeClickable(element));
 	}
 
 	// Runs after each test method — takes screenshot, logs result, closes browser
 	@AfterMethod
-	public void Clean(ITestResult result) {
+	public void clean(ITestResult result) {
 		ExtentReportManager.updateTestStats(result);
-
-		if (getDriver() != null) {
-			getDriver().quit();  // Close browser
-			driver.remove();     // Remove driver from ThreadLocal
-		}
-
+		DriverManager.quit();  // Close browser and cleanup WebDriver
 	}
 
 	// Runs once after all tests — flushes the report and sends it via email
 	@AfterSuite
-	public void FlushReport() {
+	public void flushReport() {
 		extent.flush();
 		int totalTests = ExtentReportManager.getTotalTests();
 		int passedTests = ExtentReportManager.getPassedTests();
@@ -123,8 +88,7 @@ public class BasePage {
 		if (isTestFailure) {
 			String reportPath = ExtentReportManager.reportPath;
 			// Call email sending method with failure status
-			EmailUtils.sendTestReport(reportPath, isTestFailure, totalTests, passedTests, failedTests);
+			// EmailUtils.sendTestReport(reportPath, isTestFailure, totalTests, passedTests, failedTests);
 		}
-
 	}
 }
