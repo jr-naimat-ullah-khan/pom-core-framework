@@ -1,9 +1,13 @@
 package utils;
 
+import jakarta.mail.*;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeBodyPart;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
+
 import java.io.File;
 import java.util.Properties;
-import jakarta.mail.*;
-import jakarta.mail.internet.*;
 
 public class EmailUtils {
 

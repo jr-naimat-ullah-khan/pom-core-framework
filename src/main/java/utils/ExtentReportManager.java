@@ -1,16 +1,12 @@
 package utils;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import org.testng.ITestResult;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ExtentReportManager {
 
@@ -33,8 +29,10 @@ public class ExtentReportManager {
 
 
 
+
 			extent = new ExtentReports();
 			extent.attachReporter(reporter);
+
 
 			extent.setSystemInfo("Environment", "QA");
 			extent.setSystemInfo("OS", System.getProperty("os.name"));

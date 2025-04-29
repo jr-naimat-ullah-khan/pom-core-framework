@@ -1,25 +1,18 @@
 package tests;
 
-import java.io.IOException;
-import java.util.Map;
-
-import Base.DriverManager;
+import Base.BasePage;
 import Page.ContactUsPage;
 import Page.HomePage;
+import Page.LoginPage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
-import Base.BasePage;
-import Page.LoginPage;
-import utils.ExtentReportManager;
-import utils.Log;
 import utils.DataProviders;
+import utils.ExtentReportManager;
 import utils.TestListener;
+
+import java.util.Map;
 
 @Listeners(TestListener.class)
 public class LoginPageTests extends BasePage {
@@ -67,43 +60,38 @@ public class LoginPageTests extends BasePage {
 		String password = data.get("password");
 
 		login.Login(username, password);
-		Assert.assertEquals(DriverManager.getDriver().getTitle(), "Swag Labs");
+		Assert.assertEquals(Base.DriverManager.getDriver().getTitle(), "Swag Labs");
 
 		homePage.SortingItems("hilo");
 		By SortMsg = By.cssSelector("select.product_sort_container option[value='hilo']");
-		Assert.assertEquals(DriverManager.getDriver().findElement(SortMsg).getText(),"Price (high to low)");
+		Assert.assertEquals(Base.DriverManager.getDriver().findElement(SortMsg).getText(),"Price (high to low)");
 
 		ExtentReportManager.getTest().pass("Sorting Check Success");
 	}
 
-//	@Test(dataProvider = "LoginData", dataProviderClass = DataProviders.class)
-//	public void ValidatingFacebookUrl(Map<String, String> data) {
-//
-//		ExtentReportManager.getTest().info("Testing Websites Multiple Pages");
-//		LoginPage login = new LoginPage(DriverManager.getDriver());
-//		HomePage homePage = new HomePage(DriverManager.getDriver());
-//		ContactUsPage contactUsPage = new ContactUsPage(DriverManager.getDriver());
-//
-//
-//		String username = data.get("username");
-//		String password = data.get("password");
-//		String email = data.get("email");
-//		String company = data.get("company");
-//		String comment = data.get("comment");
-//
-//		login.Login(username, password);
-//		Assert.assertEquals(DriverManager.getDriver().getTitle(), "Swag Labs");
-//		homePage.CrossPageCheck();
-//		contactUsPage.FillForm(email,company,comment);
-//
-//		String CurrentURL = DriverManager.getDriver().getCurrentUrl();
-//		Assert.assertTrue(CurrentURL.contains("facebook.com/saucelabs"), "URL does not contain Facebook link!");
-//
-//		ExtentReportManager.getTest().pass("Multiple Test Check Success");
-//	}
 
-	@Test
-	public void ValidatingFacebookUrl() {
+	@Test(dataProvider = "LoginData", dataProviderClass = DataProviders.class)
+	public void InValidSortItemFromHighToLow(Map<String, String> data) {
+
+		ExtentReportManager.getTest().info("Testing Home Page High to Low Soritng ");
+		LoginPage login = new LoginPage();
+		HomePage homePage = new HomePage();
+
+		String username = data.get("username");
+		String password = data.get("password");
+
+		login.Login(username, password);
+		Assert.assertEquals(Base.DriverManager.getDriver().getTitle(), "Swag Labs");
+
+		homePage.SortingItems("lohi");
+		By SortMsg = By.cssSelector("select.product_sort_container option[value='lohi']");
+		Assert.assertEquals(Base.DriverManager.getDriver().findElement(SortMsg).getText(),"Price (low to high)");
+
+		ExtentReportManager.getTest().pass("InValid Sorting Check Success");
+	}
+
+	@Test(dataProvider = "LoginData", dataProviderClass = DataProviders.class)
+	public void ValidatingFacebookUrl(Map<String, String> data) {
 
 		ExtentReportManager.getTest().info("Testing Websites Multiple Pages");
 		LoginPage login = new LoginPage();
@@ -111,19 +99,20 @@ public class LoginPageTests extends BasePage {
 		ContactUsPage contactUsPage = new ContactUsPage();
 
 
-		String username = "standard_user";
-		String password = "secret_sauce";
-		String email = "hello@gmail.com";
-		String company ="hELLO";
-		String comment ="vENTURECIJISJS";
+		String username = data.get("username");
+		String password = data.get("password");
+		String email = data.get("email");
+		String company = data.get("company");
+		String comment = data.get("comment");
 
 		login.Login(username, password);
-		Assert.assertEquals(DriverManager.getDriver().getTitle(), "Swag Labs");
+		Assert.assertEquals(Base.DriverManager.getDriver().getTitle(), "Swag Labs");
 		homePage.CrossPageCheck();
 		contactUsPage.FillForm(email,company,comment);
 
-		String CurrentURL = DriverManager.getDriver().getCurrentUrl();
-		Assert.assertTrue(CurrentURL.contains("facebook.com/saucelabs"), "URL does not contain Facebook link!");
+		String CurrentURL = Base.DriverManager.getDriver().getCurrentUrl();
+        Assert.assertNotNull(CurrentURL);
+        Assert.assertTrue(CurrentURL.contains("facebook.com/saucelabs"), "URL does not contain Facebook link!");
 
 		ExtentReportManager.getTest().pass("Multiple Test Check Success");
 	}

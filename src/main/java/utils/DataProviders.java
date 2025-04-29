@@ -1,9 +1,9 @@
 package utils;
 
+import org.testng.annotations.DataProvider;
+
 import java.io.IOException;
 import java.util.Map;
-
-import org.testng.annotations.DataProvider;
 
 public class DataProviders {
 
@@ -11,7 +11,7 @@ public class DataProviders {
     // For Dynamic data from Excel File
     @DataProvider(name = "LoginData")
     public static Object[][] getLoginData() throws IOException {
-        System.out.println("LoginData1 DataProvider is called");
+
         String filePath = System.getProperty("user.dir") + "/TestData/TestData.xlsx";
         ExcelUtils.LoadExcel(filePath, "Sheet1");
         int rowCount = ExcelUtils.getRowCount();
@@ -44,7 +44,7 @@ public class DataProviders {
     //  For Small data for quick test
     @DataProvider(name = "LoginData2")
     public static Object[][] getStaticLoginData() {
-        System.out.println("LoginData2 DataProvider is called");
+
         return new Object[][] {
                 { "admin@yourstore.com", "admin" }
         };

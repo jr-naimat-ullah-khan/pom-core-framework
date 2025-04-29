@@ -29,7 +29,6 @@ public class DriverManager {
         String browser = Config.getConfigValue("browser.name", String.class);
         boolean headless = Boolean.TRUE.equals(Config.getConfigValue("browser.headless", Boolean.class));
 
-        System.out.println("Initializing WebDriver");
         if (browser == null) {
             throw new IllegalStateException("Browser name not found in config file.");
         }
@@ -75,7 +74,7 @@ public class DriverManager {
 
         // Open website
         getDriver().get(Objects.requireNonNull(Config.getConfigValue("website.url", String.class)));
-        System.out.println("WebDriver Initialized: " + getDriver());
+
     }
 
     // Closes the WebDriver after each test

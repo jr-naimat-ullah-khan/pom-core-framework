@@ -3,12 +3,11 @@ package utils;
 import Base.BasePage;
 import Base.DriverManager;
 import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
+import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
-import org.openqa.selenium.WebDriver;
-
-import com.aventstack.extentreports.Status;
 
 public class TestListener implements ITestListener {
 

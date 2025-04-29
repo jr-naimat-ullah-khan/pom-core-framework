@@ -8,7 +8,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -31,7 +30,7 @@ public class HomePage extends DriverManager {
     @FindBy(css = "select.product_sort_container option[value='hilo']")
     private WebElement hightolowSort;
 
-    @FindBy(css = "select.product_sort_container option[value='liho']")
+    @FindBy(css = "select.product_sort_container option[value='lohi']")
     private WebElement lowtohighSort;
 
     @FindBy(css = "select.product_sort_container option[value='az']")

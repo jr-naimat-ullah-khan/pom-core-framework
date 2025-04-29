@@ -3,12 +3,9 @@
 	import Base.BasePage;
 	import Base.DriverManager;
 	import com.aventstack.extentreports.ExtentTest;
-	import org.openqa.selenium.WebDriver;
 	import org.openqa.selenium.WebElement;
 	import org.openqa.selenium.support.FindBy;
 	import org.openqa.selenium.support.PageFactory;
-	import utils.ExtentReportManager;
-	import utils.ScreenshotUtils;
 
 	public class LoginPage extends DriverManager {
 

@@ -5,14 +5,9 @@ import Base.DriverManager;
 import com.aventstack.extentreports.ExtentTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 
 public class ContactUsPage extends DriverManager {
 
@@ -65,7 +60,6 @@ public class ContactUsPage extends DriverManager {
             WebElement acceptCookiesBtn = getDriver().findElement(By.id("onetrust-accept-btn-handler"));
             if (acceptCookiesBtn.isDisplayed()) {
                 acceptCookiesBtn.click();
-                System.out.println("Accepted cookies");
             }
         } catch (NoSuchElementException e) {
             System.out.println("Cookie button not found, moving ahead...");
@@ -77,7 +71,4 @@ public class ContactUsPage extends DriverManager {
 
         return this;
     }
-
-
-
 }
