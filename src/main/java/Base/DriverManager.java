@@ -59,6 +59,7 @@ public class DriverManager {
                     edgeOptions.addArguments("--headless=new");
                     edgeOptions.addArguments("--window-size=1920,1080");
                 } else {
+                    edgeOptions.addArguments("--disable-signin");
                     edgeOptions.addArguments("start-maximized");
                 }
                 driver.set(new EdgeDriver(edgeOptions));

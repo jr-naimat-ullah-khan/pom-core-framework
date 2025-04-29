@@ -55,17 +55,7 @@ public class HomePage extends DriverManager {
                 webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete")
         );
     }
-    public void switchToNewWindow() {
-        WebDriver driver = getDriver(); // get from ThreadLocal
-        String originalWindow = driver.getWindowHandle();
 
-        for (String windowHandle : driver.getWindowHandles()) {
-            if (!windowHandle.equals(originalWindow)) {
-                driver.switchTo().window(windowHandle);
-                break;
-            }
-        }
-    }
 
     public HomePage CrossPageCheck() {
         basePage.Click(MenuButton, "Menu Button");
@@ -74,7 +64,7 @@ public class HomePage extends DriverManager {
         basePage.Click(AboutButton, "AboutUs Text");
 
 
-
+        waitForNewPageToLoad();
         basePage.waitForElementToBeClickable(ContactUsButton, 5);
 
         basePage.scrollToElement(ContactUsButton);
