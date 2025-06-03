@@ -1,3 +1,7 @@
+ADD SOFT SKILLS IN HIGHLIGHT SECTION
+
+
+
 package tests;
 
 import Base.BasePage;
