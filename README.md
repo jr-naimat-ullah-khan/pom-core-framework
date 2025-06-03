@@ -68,7 +68,7 @@ A clean, scalable Test Automation Framework using Java + Selenium WebDriver + Te
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/Cyber-Naimo/selenium-test-automation-framework.git
+   git clone https://github.com/jr-naimat-ullah-khan/pom-core-framework.git
    ```
 
 2. **Open in IntelliJ IDEA or Eclipse**
